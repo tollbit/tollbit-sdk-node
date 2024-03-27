@@ -1,6 +1,6 @@
 {
   "name": "tollbit-sdk",
-  "version": "0.1.5",
+  "version": "0.2.0",
   "description": "Tollbit SDK for usage with node",
   "homepage": "https://tollbit.com/",
   "main": "./dist/index.js",
