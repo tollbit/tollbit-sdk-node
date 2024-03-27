@@ -8,8 +8,6 @@ interface Client {
   getRate(targetUrl: string): Promise<RateResponse>;
 }
 
-export type TollbitParams = {};
-
 export type TokenParams = {
   url: string;
   maxPriceMicros: number;
@@ -47,6 +45,11 @@ export class Tollbit implements Client {
     this.organizationId = organizationId;
   }
 
+  /**
+   * Generates a token for accessing content based on the provided parameters.
+   * @param params - Token generation parameters.
+   * @returns Encrypted token string.
+   */
   public generateToken(params: TokenParams): string {
     const token: TokenStruct = {
       orgCuid: this.organizationId,
@@ -65,7 +68,9 @@ export class Tollbit implements Client {
   }
 
   /**
-   * getContentWithToken
+   * Retrieves content using a valid token.
+   * @param token - Encrypted token string.
+   * @returns Promise that resolves to the content response.
    */
   public async getContentWithToken(token: string): Promise<ContentResponse> {
     const decryptedToken = decrypt(token, this.secretKey);
@@ -91,6 +96,11 @@ export class Tollbit implements Client {
     return contentResponse[0];
   }
 
+  /**
+   * Retrieves content using the specified parameters.
+   * @param params - Token generation parameters.
+   * @returns Promise that resolves to the content response.
+   */
   public async getContent(params: TokenParams): Promise<ContentResponse> {
     const token = this.generateToken(params);
 
@@ -99,6 +109,11 @@ export class Tollbit implements Client {
     return contentResponse;
   }
 
+  /**
+   * Retrieves the rate for accessing content from the target URL.
+   * @param targetUrl - Target URL for which to retrieve the rate.
+   * @returns Promise that resolves to the rate response.
+   */
   public async getRate(targetUrl: string): Promise<RateResponse> {
     let tollbitUrl = targetUrl.replace(/^https?:\/\//, "");
     tollbitUrl = tollbitUrl.replace(/^www\./, "");
