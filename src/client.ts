@@ -39,7 +39,7 @@ export class Tollbit implements Client {
   private userAgent: string;
   private organizationId: string;
 
-  constructor(secretKey: string, userAgent: string, organizationId: string) {
+  constructor(secretKey: string, organizationId: string, userAgent: string) {
     this.secretKey = secretKey;
     this.userAgent = userAgent;
     this.organizationId = organizationId;
