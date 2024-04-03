@@ -8,10 +8,15 @@ interface Client {
   getRate(targetUrl: string): Promise<RateResponse>;
 }
 
+export enum LicenseType {
+  ON_DEMAND = "ON_DEMAND_LICENSE"
+}
+
 export type TokenParams = {
   url: string;
   maxPriceMicros: number;
   currency: string; // only supports USD for now
+  licenseType: LicenseType;
 };
 
 type TokenStruct = {
@@ -21,6 +26,7 @@ type TokenStruct = {
   userAgent: string;
   maxPriceMicros: number;
   currency: string;
+  licenseType: string;
 };
 
 type ContentResponse = {
@@ -31,6 +37,8 @@ type ContentResponse = {
 type RateResponse = {
   priceMicros: number;
   currency: string;
+  licenseType: string;
+  licensePath: string;
   error: string;
 };
 
@@ -58,6 +66,7 @@ export class Tollbit implements Client {
       userAgent: this.userAgent,
       maxPriceMicros: params.maxPriceMicros,
       currency: params.currency,
+      licenseType: params.licenseType
     };
 
     const tokenString = JSON.stringify(token);
