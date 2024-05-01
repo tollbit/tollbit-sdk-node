@@ -30,9 +30,16 @@ type TokenStruct = {
 };
 
 type ContentResponse = {
-  content: string;
+  content: Content;
+  metadata: string;
   rate: RateResponse;
 };
+
+type Content = {
+  header: string;
+  main: string;
+  footer: string;
+}
 
 type RateResponse = {
   priceMicros: number;
@@ -98,7 +105,7 @@ export class Tollbit implements Client {
     const response = await axios.get(tollbitUrl, { headers });
 
     const contentResponse: ContentResponse[] = response.data;
-    if (contentResponse.length === 0 || contentResponse[0].content === "") {
+    if (contentResponse.length === 0 || contentResponse[0].content == null || contentResponse[0].content.main === "") {
       throw new Error("Could not get content");
     }
 
